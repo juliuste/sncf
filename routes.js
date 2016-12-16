@@ -67,9 +67,8 @@ const parseJourney = (j) => Object.assign(omit(j, [
 const main = (from, to, date, options) => {
 	options = Object.assign({}, defaults, options || {})
 	date = new Date(date || Date.now())
-	console.log(from, to, date, options)
 
-	const result = got.post('https://europe.wshoraires.vsct.fr/m330/horaireetresasam/json/maqService/', {
+	return got.post('https://europe.wshoraires.vsct.fr/m330/horaireetresasam/json/maqService/', {
 		headers: {
 			'X-HR-Version': '33.3',
 			'X-Device-Type': 'IOS',
@@ -100,8 +99,6 @@ const main = (from, to, date, options) => {
 		})
 	}).then((res) => JSON.parse(res.body))
 	.then((data) => data.journeys.map(parseJourney))
-	.then((s) => console.log(s[0].segments))
-	.catch(console.error)
 }
 
-main('FRLPD', 'DEFRA')
+module.exports = main
