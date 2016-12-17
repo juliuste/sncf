@@ -4,6 +4,7 @@ const got = require('got')
 const moment = require('moment')
 const omit = require('lodash.omit')
 const pick = require('lodash.pick')
+const whilst = require('p-whilst')
 
 const defaults = {
 	class: 2,
@@ -64,10 +65,8 @@ const parseJourney = (j) => Object.assign(omit(j, [
 	connections: (j.connections || []).map(parseConnection),
 })
 
-const main = (from, to, date, options) => {
-	options = Object.assign({}, defaults, options || {})
-	date = new Date(date || Date.now())
-
+const query = (from, to, date, _class) => {
+	date = new Date(date).valueOf()
 	return got.post('https://europe.wshoraires.vsct.fr/m330/horaireetresasam/json/maqService/', {
 		headers: {
 			'X-HR-Version': '33.3',
@@ -78,7 +77,7 @@ const main = (from, to, date, options) => {
 			'MAQRequest': {
 				'authorizedPayment': true,
 				'directTravel': false,
-				'travelClass': (options.class===1) ? 'FIRST' : 'SECOND',
+				'travelClass': _class===1 ? 'FIRST' : 'SECOND',
 				'departureTownCode': from,
 				'pushOuibusWished': true,
 				'outwardDate': new Date(date).toISOString(), // timezone?
@@ -106,6 +105,39 @@ const main = (from, to, date, options) => {
 		.map(parseJourney)
 		.filter((route) => new Date(route.segments[0].departure).valueOf() >= date)
 	})
+}
+
+const compareByDeparture = (a, b) => {
+	a = new Date(a.segments[0].departure).valueOf()
+	b = new Date(b.segments[0].departure).valueOf()
+	return a - b
+}
+
+const main = (from, to, start, options) => {
+	options = Object.assign({}, defaults, options || {})
+	start = start ? new Date(start).valueOf() : Date.now()
+	const end = start + options.duration
+
+	let currentStart = start
+	let allRoutes = []
+
+	const condition = () => currentStart < end
+	return whilst(condition, () =>
+		query(from, to, currentStart, options.class)
+		.then((routes) => {
+			routes = routes.filter((r) => new Date(r.segments[0].departure).valueOf() < end)
+			if (routes.length === 0) {
+				currentStart += 60 * 60 * 1000 // try later
+				return
+			}
+
+			allRoutes = allRoutes.concat(routes).sort(compareByDeparture)
+
+			const latestRoute = allRoutes[allRoutes.length - 1]
+			const latestDeparture = latestRoute.segments[0].departure
+			currentStart = new Date(latestDeparture).valueOf() + 60 * 1000
+		})
+	).then(() => allRoutes)
 }
 
 module.exports = main

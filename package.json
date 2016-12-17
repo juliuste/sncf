@@ -21,7 +21,8 @@
     "got": "^6.6.3",
     "lodash.omit": "^4.5.0",
     "lodash.pick": "^4.4.0",
-    "moment": "^2.17.1"
+    "moment": "^2.17.1",
+    "p-whilst": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {
