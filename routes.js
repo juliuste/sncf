@@ -81,7 +81,7 @@ const main = (from, to, date, options) => {
 				'travelClass': (options.class===1) ? 'FIRST' : 'SECOND',
 				'departureTownCode': from,
 				'pushOuibusWished': true,
-				'outwardDate': date.toISOString(), // timezone?
+				'outwardDate': new Date(date).toISOString(), // timezone?
 				'recliningSeats': false,
 				'destinationTownCode': to,
 				'passengers': [{
@@ -97,8 +97,15 @@ const main = (from, to, date, options) => {
 				'fullTrainsWished': true
 			}
 		})
-	}).then((res) => JSON.parse(res.body))
-	.then((data) => data.journeys.map(parseJourney))
+	})
+	.then((res) => JSON.parse(res.body))
+	.then((data) => {
+		if (!data || !Array.isArray(data.journeys) || data.length === 0) return []
+		// TODO: handle errors properly
+		return data.journeys
+		.map(parseJourney)
+		.filter((route) => new Date(route.segments[0].departure).valueOf() >= date)
+	})
 }
 
 module.exports = main
