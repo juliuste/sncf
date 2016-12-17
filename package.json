@@ -1,7 +1,7 @@
 {
   "name": "sncf",
   "description": "SNCF api client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "keywords": [
     "train",
     "railway",
@@ -15,7 +15,7 @@
   "bugs": "https://github.com/juliuste/sncf/issues",
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js", "routes.js", "places.js"
   ],
   "dependencies": {
     "got": "^6.6.3",
