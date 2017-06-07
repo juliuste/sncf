@@ -1,5 +1,7 @@
 # sncf
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/juliuste/sncf.svg)](https://greenkeeper.io/)
+
 JavaScript SNCF API client. *Still in progress*
 
 [![npm version](https://img.shields.io/npm/v/sncf.svg)](https://www.npmjs.com/package/sncf)
