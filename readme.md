@@ -73,7 +73,7 @@ const defaults = {
 ```
 
 Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an array of `journey`s in the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format) which looks as follows.
-*Note that the legs are not fully spec-compatible, as the `schedule` is missing and for API-specific reasons, the journey always contains exactly one leg (see also: `transfers` key).*
+*Note that the legs are not fully spec-compatible, as the `schedule` is missing in legs.*
 
 ```js
 [
