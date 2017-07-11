@@ -26,7 +26,9 @@ Using `sncf.stations`, you can search train stations operated by SNCF.
 ```js
 const stations = require('sncf').stations
 
-stations("Montpellier").then(console.log)
+stations("Montpellier")
+.then(console.log)
+.catch(console.error)
 ```
 
 Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve in an array of `station`s in the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format) which looks as follows:
@@ -42,22 +44,19 @@ Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 ]
 ```
 
-### journeys(origin, destination, date = Date.now(), opt = defaults)
+### journeys(origin, destination, date = Date.now(), opt = {})
 
 Using `sncf.journeys`, you can get directions and prices for routes from A to B. ***Still in progress!***
 
 ```js
 const journeys = require('sncf').journeys
 
-const francfort = 'DEFRA'
+const frankfurt = 'DEFRA'
 const lyon = 'FRLYS'
-const date = new Date() // see also: opt parameter
 
-journeys(francfort, lyon, date)
+journeys(frankfurt, lyon, new Date(), {duration: 24*60*60*1000})
 .then(console.log)
 .catch(console.error)
-
-journeys('FRPAR', 'FRLYS', new Date(), {duration: 24*60*60*1000})
 ```
 
 `defaults`, partially overridden by the `opt` parameter, looks like this:
