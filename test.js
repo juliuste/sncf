@@ -22,7 +22,7 @@ tape('sncf.stations', (t) => {
 })
 
 tape('sncf.journeys', (t) => {
-	sncf.journeys("DEFRA", "FRPAR", moment.tz("Europe/Berlin").add(3, "days").startOf('day').add(7, "hours").toDate()).then((journeys) => {
+	sncf.journeys("DEFRA", "FRPAR", moment.tz("Europe/Paris").add(3, "days").startOf('day').add(7, "hours").toDate()).then((journeys) => {
 		t.plan(13)
 
 		t.ok(journeys.length > 0, 'journeys length')
