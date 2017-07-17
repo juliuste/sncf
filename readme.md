@@ -44,7 +44,7 @@ Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 ]
 ```
 
-### journeys(origin, destination, date = Date.now(), opt = {})
+### `journeys(origin, destination, date = Date.now(), opt = {})`
 
 Using `sncf.journeys`, you can get directions and prices for routes from A to B. ***Still in progress!***
 
@@ -272,9 +272,9 @@ Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 ]
 ```
 
-### prices(origin, destination, date = Date.now(), opt = {})
+### `prices(origin, destination, date = Date.now(), opt = {})`
 
-Using `sncf.prices`, you can get price information for routes from A to B for a whole month. Note that the only information taken from the `date` parameter will be its month in the 'Europe/Paris' timezone, meaning that `2017-07-31T22:00:00` would actually give you the results for August 2017. ***Still in progress!***
+Using `sncf.prices`, you can get price information for routes from A to B for a whole month. Note that the only information taken from the `date` parameter will be its month according to the 'Europe/Paris' timezone, meaning that `2017-07-31T22:00:00` would actually give you the results for August 2017.
 
 ```js
 const prices = require('sncf').prices
@@ -292,8 +292,8 @@ prices(frankfurt, lyon, new Date(), {class: 1})
 ```js
 const defaults = {
     direct: false, // direct connections only
-	class: 2, // one of [1, 2]
-	language: 'fr'
+    class: 2, // one of [1, 2]
+    language: 'fr'
 }
 ```
 
