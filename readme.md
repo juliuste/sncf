@@ -272,6 +272,61 @@ Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 ]
 ```
 
+### prices(origin, destination, date = Date.now(), opt = {})
+
+Using `sncf.prices`, you can get price information for routes from A to B for a whole month. Note that the only information taken from the `date` parameter will be its month in the 'Europe/Paris' timezone, meaning that `2017-07-31T22:00:00` would actually give you the results for August 2017. ***Still in progress!***
+
+```js
+const prices = require('sncf').prices
+
+const frankfurt = 'DEFRA'
+const lyon = 'FRLYS'
+
+prices(frankfurt, lyon, new Date(), {class: 1})
+.then(console.log)
+.catch(console.error)
+```
+
+`defaults`, partially overridden by the `opt` parameter, looks like this:
+
+```js
+const defaults = {
+    direct: false, // direct connections only
+	class: 2, // one of [1, 2]
+	language: 'fr'
+}
+```
+
+Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve in an array which looks as follows:
+
+```js
+[
+    {
+        "price": {
+            "amount": 76,
+            "currency": "EUR"
+        },
+        "date": "2017-07-31T22:00:00.000Z" // actually August 1 in Paris time zone!
+    },
+    {
+        "price": {
+            "amount": 76,
+            "currency": "EUR"
+        },
+        "date": "2017-08-01T22:00:00.000Z"
+    },
+    // …
+    {
+        "price": {
+            "amount": 44,
+            "currency": "EUR"
+        },
+        "date": "2017-08-30T22:00:00.000Z"
+    }
+]
+```
+
+
 ----
 
 ## See also

@@ -43,3 +43,15 @@ tape('sncf.journeys', (t) => {
 	})
 	.catch((e) => {throw new Error(e)})
 })
+
+tape('sncf.prices', (t) => {
+	sncf.prices("DEFRA", "FRPAR", moment.tz("Europe/Paris").add(1, "months").toDate()).then((prices) => {
+		t.plan(4)
+
+		t.ok(prices.length >= 28, 'prices length')
+		t.ok(isDate(prices[0].date), 'price date')
+		t.ok(prices[0].price.amount > 0, 'price price amount')
+		t.ok(prices[0].price.currency === 'EUR', 'price price currency')
+	})
+	.catch((e) => {throw new Error(e)})
+})
