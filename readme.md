@@ -1,7 +1,5 @@
 # sncf
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/juliuste/sncf.svg)](https://greenkeeper.io/)
-
 JavaScript client for the [sncf](https://www.voyages-sncf.com/) API. Complies with the [friendly public transport format](https://github.com/public-transport/friendly-public-transport-format). *Still in progress.*
 
 [![npm version](https://img.shields.io/npm/v/sncf.svg)](https://www.npmjs.com/package/sncf)
