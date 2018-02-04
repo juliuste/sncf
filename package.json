@@ -21,7 +21,7 @@
     "lib/*"
   ],
   "dependencies": {
-    "fetch-ponyfill": "^4.0.0",
+    "fetch-ponyfill": "^5.0.0",
     "lodash.isempty": "^4.4.0",
     "lodash.merge": "^4.6.0",
     "lodash.minby": "^4.6.0",
