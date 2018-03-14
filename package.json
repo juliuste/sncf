@@ -33,7 +33,7 @@
     "moment-timezone": "^0.5.13",
     "p-whilst": "^1.0.0",
     "pinkie-promise": "^2.0.1",
-    "query-string": "^5.0.0"
+    "query-string": "^6.0.0"
   },
   "devDependencies": {
     "lodash.isdate": "^4.0.1",
