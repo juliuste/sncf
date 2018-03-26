@@ -1,13 +1,13 @@
 # sncf
 
-JavaScript client for the [sncf](https://www.voyages-sncf.com/) API. Complies with the [friendly public transport format](https://github.com/public-transport/friendly-public-transport-format). Inofficial, using endpoints by *SNCF*. Ask them for permission before using this module in production. *Still in progress.*
+JavaScript client for the [sncf](https://www.voyages-sncf.com/) API. Complies with the [friendly public transport format](https://github.com/public-transport/friendly-public-transport-format). Inofficial, using endpoints by *SNCF*. Ask them for permission before using this module in production. *Work in progress.*
 
 [![npm version](https://img.shields.io/npm/v/sncf.svg)](https://www.npmjs.com/package/sncf)
 [![Build Status](https://travis-ci.org/juliuste/sncf.svg?branch=master)](https://travis-ci.org/juliuste/sncf)
 [![Greenkeeper badge](https://badges.greenkeeper.io/juliuste/sncf.svg)](https://greenkeeper.io/)
 [![dependency status](https://img.shields.io/david/juliuste/sncf.svg)](https://david-dm.org/juliuste/sncf)
-[![dev dependency status](https://img.shields.io/david/dev/juliuste/sncf.svg)](https://david-dm.org/juliuste/sncf#info=devDependencies)
 [![license](https://img.shields.io/github/license/juliuste/sncf.svg?style=flat)](LICENSE)
+[![fptf version](https://fptf.badges.juliustens.eu/badge/juliuste/sncf)](https://fptf.badges.juliustens.eu/link/juliuste/sncf)
 [![chat on gitter](https://badges.gitter.im/juliuste.svg)](https://gitter.im/juliuste)
 
 ## Installation
@@ -37,23 +37,23 @@ Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 ```js
 [
     {
-        type: 'station',
-        id: 'FRMPL',
-        name: 'Montpellier (FR)'
+        type: "station",
+        id: "FRMPL",
+        name: "Montpellier Saint-Roch (Occitanie)"
     }
     // …
 ]
 ```
 
-### `journeys(origin, destination, date = Date.now(), opt = {})`
+### `journeys(origin, destination, date = new Date(), opt = {})`
 
-Using `sncf.journeys`, you can get directions and prices for routes from A to B. ***Still in progress!***
+Using `sncf.journeys`, you can get directions and prices for routes from A to B. `origin` and `destination` can be station `id`s or FPTF `station` objects.
 
 ```js
 const journeys = require('sncf').journeys
 
 const frankfurt = 'DEFRA'
-const lyon = 'FRLYS'
+const lyon = {type: 'station', id: 'FRLYS'}
 
 journeys(frankfurt, lyon, new Date(), {duration: 24*60*60*1000})
 .then(console.log)
@@ -64,269 +64,124 @@ journeys(frankfurt, lyon, new Date(), {duration: 24*60*60*1000})
 
 ```js
 const defaults = {
-    duration: 6*60*60*1000, // searches for journeys in the next 6 hours starting at 'date' (parameter)
-    direct: false, // direct connections only
+    duration: 6*60*60*1000  // searches for journeys in the next 6 hours starting at 'date' (parameter). Warning: Spawns multiple requests, may take a couple of seconds for longer durations!
+    direct: false,  // direct connections only
     class: 2, // one of [1, 2]
-    language: 'fr',
-    busOnly: false
+	via: null, // station code or object
+	language: 'fr',
+	country: 'FR', // probably influences price currency (?)
 }
 ```
 
-Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an array of `journey`s in the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format) which looks as follows.
-*Note that the legs are not fully spec-compatible, as the `schedule` is missing in legs.*
+Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an array of `journey`s in the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format) which looks as follows. Please note that the results are not fully spec-compatible since `arrival` and `departure` Date strings don't contain the station timezones, because the API doesn't provide this information.
 
 ```js
 [
     {
-        "type": "journey",
-        "id": "8774c636-6f77-40e4-8399-f55550b5726c",
-        "origin": {
-            "type": "station",
-            "id": "DEFRH",
-            "name": "FRANKFURT MAIN HBF"
-        },
-        "destination": {
-            "type": "station",
-            "id": "FRLPD",
-            "name": "LYON PART DIEU"
-        },
-        "departure": "2017-07-11T00:48:00.000Z", // JS Date() object
-        "arrival": "2017-07-11T09:02:00.000Z", // JS Date() object
-        "legs": [
+        type: "journey",
+        id: "3c9cb584-c16a-43ca-84fa-f89a610e9d82",
+        legs: [
             {
-                "origin": {
-                    "type": "station",
-                    "id": "DEFRH",
-                    "name": "FRANKFURT MAIN HBF"
+                origin: {
+                    type: "station",
+                    id: "DEFRS",
+                    name: "FRANKFURT MAIN SUED",
+                    regions: [
+                        "DEFRA"
+                    ],
+                    url: null,
+                    inFrance: false
                 },
-                "destination": {
-                    "type": "station",
-                    "id": "CHAJP",
-                    "name": "BALE CFF"
+                destination: {
+                    type: "station",
+                    id: "CHAJP",
+                    name: "BALE CFF",
+                    regions: [
+                        "FRZDH"
+                    ],
+                    url: null,
+                    inFrance: true
                 },
-                "departure": "2017-07-11T00:48:00.000Z", // JS Date() object
-                "arrival": "2017-07-11T04:22:00.000Z", // JS Date() object
-                "vehicle": {
-                    "type": "TRAIN"
-                }
-            },
-            {
-                "origin": {
-                    "type": "station",
-                    "id": "CHAJP",
-                    "name": "BALE CFF"
+                departure: "2018-03-27T04:02:00+01:00",
+                arrival: "2018-03-27T07:20:00+01:00",
+                line: {
+                    type: "line",
+                    id: "401",
+                    name: "Train 401",
+                    mode: "train",
+                    vehicleType: "ONL",
+                    services: [],
+                    operator: "OE"
                 },
-                "destination": {
-                    "type": "station",
-                    "id": "FRLPD",
-                    "name": "LYON PART DIEU"
-                },
-                "departure": "2017-07-11T05:24:00.000Z", // JS Date() object
-                "arrival": "2017-07-11T09:02:00.000Z", // JS Date() object
-                "vehicle": {
-                    "type": "TRAIN"
-                }
+                operator: "OE",
+                schedule: "defrs-2018-03-27t04-02-00-01-00-chajp-2018-03-27t07-20-00-01-00"
             }
+            // …
         ],
-        "price": {
-            "amount": 174.8,
-            "currency": "EUR",
-            "fares": [
+        price: {
+            amount: 86,
+            currency: "EUR",
+            fares: [
                 {
-                    "price": {
-                        "amount": 241.2,
-                        "currency": "EUR"
+                    price: {
+                        amount: 121,
+                        currency: "EUR"
                     },
-                    "model": "UPSELL",
-                    "appliedDiscount": 0,
-                    "passengers": [
+                    model: "SEMIFLEX",
+                    appliedDiscount: 0,
+                    passengers: [
                         {
-                            "clientId": "0",
-                            "travelerId": null,
-                            "price": 241.2,
-                            "age": "ADULT",
-                            "fidelityCard": "NONE",
-                            "fidelityPoints": null,
-                            "globalPassenger": false,
-                            "promoCodeType": null,
-                            "fareInformations": [
+                            clientId: "0",
+                            travelerId: null,
+                            price: 121,
+                            age: "ADULT",
+                            fidelityCard: "NONE",
+                            fidelityPoints: null,
+                            promoCodeType: null,
+                            fareInformations: [
                                 {
-                                    "fareName": "Tarif normal Adulte",
-                                    "fareCondition": "BILLET AVEC RESERVATION : échange et remboursement sans frais avant départ, 50% après départ. BILLET SANS RESERVATION : échange et remboursement avec 10% de retenue, avant et après départ .",
-                                    "fareCode": "TRNO",
-                                    "fareSpecificRule": null,
-                                    "fareSequence": null,
-                                    "cosLevel": null,
-                                    "returnMandatory": false,
-                                    "passengerType": "PT00AD",
-                                    "classOfService": "A",
-                                    "segmentId": 4,
-                                    "passengerClientId": "0",
-                                    "promoCodeApplied": false,
-                                    "fixedPriceCuiQuotation": false,
-                                    "fakeFare": false
-                                },
-                                {
-                                    "fareName": "TGV LOISIR",
-                                    "fareCondition": "Billet échangeable et remboursable avec retenue de 5 &euro; à compter de 30 jours avant le départ, portée à 15 &euro; la veille et le jour du départ.  A ces frais s'ajoute l'éventuelle différence de prix entre l'ancien et le nouveau billet.  Billet non échangeable et non remboursable après le départ.",
-                                    "fareCode": "PR11",
-                                    "fareSpecificRule": null,
-                                    "fareSequence": null,
-                                    "cosLevel": "06",
-                                    "returnMandatory": false,
-                                    "passengerType": "PT00AD",
-                                    "classOfService": "AG",
-                                    "segmentId": 5,
-                                    "passengerClientId": "0",
-                                    "promoCodeApplied": false,
-                                    "fixedPriceCuiQuotation": false,
-                                    "fakeFare": false
+                                    fareName: "TARIF NORMAL ADULTE",
+                                    fareCondition: "Billet remboursable sans frais jusqu'à 15 jours avant le départ, avec une pénalité de 50% à partir de 14 jours et jusqu'à 1 jours avant le départ. Billet non remboursable à partir de 1 jours avant le départ.",
+                                    fareCode: "AFAD",
+                                    fareSpecificRule: null,
+                                    fareSequence: null,
+                                    cosLevel: null,
+                                    returnMandatory: false,
+                                    passengerType: "PT00AD",
+                                    classOfService: "B",
+                                    segmentId: 6,
+                                    passengerClientId: "0",
+                                    promoCodeApplied: false,
+                                    fixedPriceCuiQuotation: false,
+                                    fakeFare: false
                                 }
+                                // …
                             ],
-                            "passengerType": "HUMAN",
-                            "encartedPrems": false,
-                            "specificSeatRequired": true,
-                            "promoCodeApplied": false
+                            passengerType: "HUMAN",
+                            encartedPrems: false,
+                            specificSeatRequired: true,
+                            hanInformation: null,
+                            promoCodeApplied: false
                         }
                     ],
-                    "animals": [],
-                    "bookingFee": {
-                        "amount": 5,
-                        "currency": "EUR",
-                        "type": "FDD"
+                    animals: [],
+                    bookingFee: {
+                        amount: 5,
+                        type: "FDD"
                     },
-                    "bicycle": false,
-                    "placementOptions": true
-                },
-                {
-                    "price": {
-                        "amount": 174.8,
-                        "currency": "EUR"
-                    },
-                    "model": "SEMIFLEX",
-                    "appliedDiscount": 0,
-                    "passengers": [
-                        {
-                            "clientId": "0",
-                            "travelerId": null,
-                            "price": 174.8,
-                            "age": "ADULT",
-                            "fidelityCard": "NONE",
-                            "fidelityPoints": null,
-                            "globalPassenger": false,
-                            "promoCodeType": null,
-                            "fareInformations": [
-                                {
-                                    "fareName": "Tarif normal Adulte",
-                                    "fareCondition": "BILLET AVEC RESERVATION : échange et remboursement sans frais avant départ, 50% après départ. BILLET SANS RESERVATION : échange et remboursement avec 10% de retenue, avant et après départ .",
-                                    "fareCode": "TRNO",
-                                    "fareSpecificRule": null,
-                                    "fareSequence": null,
-                                    "cosLevel": null,
-                                    "returnMandatory": false,
-                                    "passengerType": "PT00AD",
-                                    "classOfService": "B",
-                                    "segmentId": 4,
-                                    "passengerClientId": "0",
-                                    "promoCodeApplied": false,
-                                    "fixedPriceCuiQuotation": false,
-                                    "fakeFare": false
-                                },
-                                {
-                                    "fareName": "TGV LOISIR",
-                                    "fareCondition": "Billet échangeable et remboursable avec retenue de 5 &euro; à compter de 30 jours avant le départ, portée à 15 &euro; la veille et le jour du départ.  A ces frais s'ajoute l'éventuelle différence de prix entre l'ancien et le nouveau billet.  Billet non échangeable et non remboursable après le départ.",
-                                    "fareCode": "PR11",
-                                    "fareSpecificRule": null,
-                                    "fareSequence": null,
-                                    "cosLevel": "01",
-                                    "returnMandatory": false,
-                                    "passengerType": "PT00AD",
-                                    "classOfService": "BP",
-                                    "segmentId": 5,
-                                    "passengerClientId": "0",
-                                    "promoCodeApplied": false,
-                                    "fixedPriceCuiQuotation": false,
-                                    "fakeFare": false
-                                }
-                            ],
-                            "passengerType": "HUMAN",
-                            "encartedPrems": false,
-                            "specificSeatRequired": true,
-                            "promoCodeApplied": false
-                        }
-                    ],
-                    "animals": [],
-                    "bookingFee": {
-                        "amount": 5,
-                        "currency": "EUR",
-                        "type": "FDD"
-                    },
-                    "bicycle": false,
-                    "placementOptions": true
+                    bicycle: false,
+                    placementOptions: true
                 }
-            ],
-            "unsellableReason": null
+                // …
+            ]
         },
-        "perturbations": false
+        unsellableReason: null,
+        perturbations: false,
+        isRealTime: false
     }
     // …
 ]
 ```
-
-### `prices(origin, destination, date = Date.now(), opt = {})`
-
-Using `sncf.prices`, you can get price information for routes from A to B for a whole month. Note that the only information taken from the `date` parameter will be its month according to the 'Europe/Paris' timezone, meaning that `2017-07-31T22:00:00` would actually give you the results for August 2017.
-
-```js
-const prices = require('sncf').prices
-
-const frankfurt = 'DEFRA'
-const lyon = 'FRLYS'
-
-prices(frankfurt, lyon, new Date(), {class: 1})
-.then(console.log)
-.catch(console.error)
-```
-
-`defaults`, partially overridden by the `opt` parameter, looks like this:
-
-```js
-const defaults = {
-    direct: false, // direct connections only
-    class: 2, // one of [1, 2]
-    language: 'fr'
-}
-```
-
-Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve in an array which looks as follows:
-
-```js
-[
-    {
-        "price": {
-            "amount": 76,
-            "currency": "EUR"
-        },
-        "date": "2017-07-31T22:00:00.000Z" // actually August 1 in Paris time zone!
-    },
-    {
-        "price": {
-            "amount": 76,
-            "currency": "EUR"
-        },
-        "date": "2017-08-01T22:00:00.000Z"
-    },
-    // …
-    {
-        "price": {
-            "amount": 44,
-            "currency": "EUR"
-        },
-        "date": "2017-08-30T22:00:00.000Z"
-    }
-]
-```
-
 
 ----
 
