@@ -29,7 +29,7 @@ tape('sncf.journeys', (t) => {
 		t.ok(journeys[0].legs[0].origin.regions[0] === "DEFRA", 'origin region')
 		t.ok(journeys[0].legs[journeys[0].legs.length-1].destination.regions[0] === "FRPAR", 'destination region')
 
-		t.ok(['DB', 'SN'].includes(journeys[0].legs[0].operator), 'leg operator')
+		t.ok(['DB', 'SN', 'CF'].includes(journeys[0].legs[0].operator), 'leg operator')
 
 		t.ok(journeys[0].price.amount > 0, 'price amount')
 		t.ok(journeys[0].price.currency === 'EUR', 'price currency')
