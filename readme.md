@@ -3,6 +3,7 @@
 JavaScript client for the [sncf](https://www.voyages-sncf.com/) API. Complies with the [friendly public transport format](https://github.com/public-transport/friendly-public-transport-format). Inofficial, using endpoints by *SNCF*. Ask them for permission before using this module in production. *Work in progress.*
 
 [![npm version](https://img.shields.io/npm/v/sncf.svg)](https://www.npmjs.com/package/sncf)
+[![Build Status](https://travis-ci.org/juliuste/sncf.svg?branch=master)](https://travis-ci.org/juliuste/sncf)
 [![Greenkeeper badge](https://badges.greenkeeper.io/juliuste/sncf.svg)](https://greenkeeper.io/)
 [![dependency status](https://img.shields.io/david/juliuste/sncf.svg)](https://david-dm.org/juliuste/sncf)
 [![license](https://img.shields.io/github/license/juliuste/sncf.svg?style=flat)](LICENSE)
