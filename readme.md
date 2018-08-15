@@ -82,26 +82,8 @@ Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
         id: "3c9cb584-c16a-43ca-84fa-f89a610e9d82",
         legs: [
             {
-                origin: {
-                    type: "station",
-                    id: "DEFRS",
-                    name: "FRANKFURT MAIN SUED",
-                    regions: [
-                        "DEFRA"
-                    ],
-                    url: null,
-                    inFrance: false
-                },
-                destination: {
-                    type: "station",
-                    id: "CHAJP",
-                    name: "BALE CFF",
-                    regions: [
-                        "FRZDH"
-                    ],
-                    url: null,
-                    inFrance: true
-                },
+                origin: "DEFRS",
+                destination: "CHAJP",
                 departure: "2018-03-27T04:02:00+01:00",
                 arrival: "2018-03-27T07:20:00+01:00",
                 line: {
@@ -175,8 +157,6 @@ Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
                 // …
             ]
         },
-        unsellableReason: null,
-        perturbations: false,
         isRealTime: false
     }
     // …

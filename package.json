@@ -1,7 +1,7 @@
 {
   "name": "sncf",
   "description": "SNCF API client",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "keywords": [
     "train",
     "railway",
@@ -21,13 +21,13 @@
     "lib/*"
   ],
   "dependencies": {
+    "got": "^9.0.0",
     "lodash": "^4.17.10",
     "moment-timezone": "^0.5.17",
     "p-whilst": "^1.0.0",
     "slugg": "^1.2.1"
   },
   "devDependencies": {
-    "got": "^8.3.1",
     "tape": "^4.9.1",
     "validate-fptf": "^2.0.1"
   },
