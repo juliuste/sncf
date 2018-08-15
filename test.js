@@ -8,7 +8,7 @@ const sncf = require('./index')
 
 const validID = (s) => (/^[A-Z]+$/.test(s) && s.length === 5)
 
-tape.skip('sncf.stations', (t) => {
+tape('sncf.stations', (t) => {
 	sncf.stations('Frankfurt').then((stations) => {
 		stations.forEach(s => validate(s))
 		t.ok(stations.length > 0, 'stations length')
@@ -44,7 +44,7 @@ tape('sncf.journeys', (t) => {
 	.catch(t.ifError)
 })
 
-tape.skip('sncf.prices', (t) => {
+tape('sncf.prices', (t) => {
 	sncf.prices("DEFRA", "FRPAR", moment.tz("Europe/Paris").add(1, "months").toDate()).then(prices => {
 		t.ok(prices.length >= 28, 'prices length')
 		t.ok(l.isDate(new Date(prices[0].date)) && +new Date(prices[0].date) > +new Date(), 'price date')
