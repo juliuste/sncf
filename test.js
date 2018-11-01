@@ -4,7 +4,7 @@ const l = require('lodash')
 const moment = require('moment-timezone')
 const validate = require('validate-fptf')
 const tape = require('tape')
-const sncf = require('./index')
+const sncf = require('.')
 
 const validID = (s) => (/^[A-Z]+$/.test(s) && s.length === 5)
 

@@ -1,25 +1,32 @@
 {
   "name": "sncf",
-  "description": "SNCF API client",
   "version": "0.6.0",
+  "description": "SNCF API client",
   "keywords": [
-    "train",
-    "railway",
     "api",
     "client",
-    "sncf",
     "francais",
-    "french"
+    "french",
+    "railway",
+    "sncf",
+    "train"
   ],
-  "author": "Julius Tens <mail@juliustens.eu>",
   "homepage": "https://github.com/juliuste/sncf",
-  "repository": "juliuste/sncf",
   "bugs": "https://github.com/juliuste/sncf/issues",
-  "main": "./index.js",
+  "repository": "juliuste/sncf",
+  "license": "ISC",
+  "author": "Julius Tens <mail@juliustens.eu>",
   "files": [
-    "index.js",
     "lib/*"
   ],
+  "main": "lib/index.js",
+  "scripts": {
+    "check-deps": "depcheck",
+    "fix": "eslint --fix lib",
+    "lint": "eslint lib",
+    "prepublishOnly": "npm test",
+    "test": "npm run lint && npm run check-deps && node test"
+  },
   "dependencies": {
     "got": "^9.0.0",
     "lodash": "^4.17.10",
@@ -28,15 +35,17 @@
     "slugg": "^1.2.1"
   },
   "devDependencies": {
+    "depcheck": "^0.6.11",
+    "eslint": "^5.8.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     "tape": "^4.9.1",
     "validate-fptf": "^2.0.1"
   },
-  "scripts": {
-    "test": "node test.js",
-    "prepublishOnly": "npm test"
-  },
-  "engine": {
+  "engines": {
     "node": ">=8"
-  },
-  "license": "ISC"
+  }
 }
