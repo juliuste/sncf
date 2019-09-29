@@ -1,51 +1,47 @@
 {
-  "name": "sncf",
-  "version": "0.6.0",
-  "description": "SNCF API client",
-  "keywords": [
-    "api",
-    "client",
-    "francais",
-    "french",
-    "railway",
-    "sncf",
-    "train"
-  ],
-  "homepage": "https://github.com/juliuste/sncf",
-  "bugs": "https://github.com/juliuste/sncf/issues",
-  "repository": "juliuste/sncf",
-  "license": "ISC",
-  "author": "Julius Tens <mail@juliustens.eu>",
-  "files": [
-    "lib/*"
-  ],
-  "main": "lib/index.js",
-  "scripts": {
-    "check-deps": "depcheck",
-    "fix": "eslint --fix lib",
-    "lint": "eslint lib",
-    "prepublishOnly": "npm test",
-    "test": "npm run lint && npm run check-deps && node test"
-  },
-  "dependencies": {
-    "got": "^9.0.0",
-    "lodash": "^4.17.10",
-    "moment-timezone": "^0.5.17",
-    "p-whilst": "^1.0.0",
-    "slugg": "^1.2.1"
-  },
-  "devDependencies": {
-    "depcheck": "^0.6.11",
-    "eslint": "^5.8.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "tape": "^4.9.1",
-    "validate-fptf": "^2.0.1"
-  },
-  "engines": {
-    "node": ">=8"
-  }
+	"name": "sncf",
+	"version": "0.6.0",
+	"description": "SNCF (French Railways) API client.",
+	"keywords": [
+		"api",
+		"client",
+		"francais",
+		"france",
+		"french",
+		"railway",
+		"sncf",
+		"train"
+	],
+	"homepage": "https://github.com/juliuste/sncf",
+	"bugs": "https://github.com/juliuste/sncf/issues",
+	"repository": "juliuste/sncf",
+	"license": "ISC",
+	"author": "Julius Tens <mail@juliustens.eu>",
+	"files": [
+		"lib/*"
+	],
+	"main": "lib/index.js",
+	"scripts": {
+		"check-deps": "depcheck",
+		"fix": "eslint --fix lib test.js",
+		"lint": "eslint lib test.js",
+		"prepublishOnly": "npm test",
+		"test": "npm run lint && npm run check-deps && npm run unit-test",
+		"unit-test": "nyc --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 node test"
+	},
+	"devDependencies": {
+		"depcheck": "^0.8.3",
+		"eslint": "^6.4.0",
+		"eslint-config-standard": "^14.1.0",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-node": "^10.0.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.1",
+		"nyc": "^14.1.1",
+		"tape": "^4.11.0",
+		"tape-promise": "^4.0.0"
+	},
+	"engines": {
+		"node": ">=10"
+	}
 }
