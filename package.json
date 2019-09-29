@@ -18,16 +18,17 @@
 	"license": "ISC",
 	"author": "Julius Tens <mail@juliustens.eu>",
 	"files": [
-		"lib/*"
+		"lib/*",
+		"authenticate.js"
 	],
 	"main": "lib/index.js",
 	"scripts": {
 		"check-deps": "depcheck",
-		"fix": "eslint --fix lib test.js",
-		"lint": "eslint lib test.js",
+		"fix": "eslint --fix lib authenticate.js test.js",
+		"lint": "eslint lib authenticate.js test.js",
+		"postinstall": "node authenticate.js > credentials.json",
 		"prepublishOnly": "npm test",
-		"test": "npm run lint && npm run check-deps && npm run unit-test",
-		"unit-test": "nyc --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 node test"
+		"test": "npm run lint && npm run check-deps && node test"
 	},
 	"devDependencies": {
 		"depcheck": "^0.8.3",
@@ -37,11 +38,16 @@
 		"eslint-plugin-node": "^10.0.0",
 		"eslint-plugin-promise": "^4.2.1",
 		"eslint-plugin-standard": "^4.0.1",
-		"nyc": "^14.1.1",
 		"tape": "^4.11.0",
 		"tape-promise": "^4.0.0"
 	},
 	"engines": {
 		"node": ">=10"
+	},
+	"dependencies": {
+		"ajv": "^6.10.2",
+		"got": "^9.6.0",
+		"lodash": "^4.17.15",
+		"uuid": "^3.3.3"
 	}
 }
