@@ -28,7 +28,7 @@
     "test": "npm run lint && npm run check-deps && node test"
   },
   "dependencies": {
-    "got": "^9.0.0",
+    "got": "^10.0.2",
     "lodash": "^4.17.10",
     "moment-timezone": "^0.5.17",
     "p-whilst": "^1.0.0",
