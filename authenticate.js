@@ -16,7 +16,7 @@ const createDeviceIdentifiers = () => {
 		deviceIdentifier: login,
 		devicePlatform,
 		deviceType,
-		anonymousUser: true
+		anonymousUser: true,
 	}
 }
 
@@ -25,8 +25,8 @@ const schema = {
 	required: ['secret', 'token'],
 	properties: {
 		description: { format: 'uuid', nullable: false },
-		secret: { format: 'uuid', nullable: false }
-	}
+		secret: { format: 'uuid', nullable: false },
+	},
 }
 const _validate = (new Ajv({ allErrors: true, nullable: true })).compile(schema)
 const validate = obj => {
@@ -39,7 +39,7 @@ const validate = obj => {
 const authenticate = async () => {
 	const { body } = await got.post(`https://${devicePlatform}.appun-vsct.fr/authenticate/`, {
 		json: true,
-		body: createDeviceIdentifiers()
+		body: createDeviceIdentifiers(),
 	})
 	validate(body)
 	console.error('successfully fetched credentials')
