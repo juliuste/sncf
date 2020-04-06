@@ -24,9 +24,9 @@
 	],
 	"scripts": {
 		"check-deps": "depcheck",
-		"fix": "eslint --fix lib authenticate.js test",
+		"fix": "eslint --fix lib authenticate.js example.js test",
 		"postinstall": "node authenticate.js > credentials.json",
-		"lint": "eslint lib authenticate.js test",
+		"lint": "eslint lib authenticate.js example.js test",
 		"prepublishOnly": "npm test",
 		"test": "npm run lint && npm run check-deps && node test"
 	},
@@ -36,6 +36,7 @@
 		"got": "^9.6.0",
 		"hasha": "^5.1.0",
 		"lodash": "^4.17.15",
+		"query-string": "^6.11.1",
 		"uuid": "^3.3.3"
 	},
 	"devDependencies": {
