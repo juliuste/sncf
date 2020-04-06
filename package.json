@@ -1,51 +1,55 @@
 {
-  "name": "sncf",
-  "version": "0.6.0",
-  "description": "SNCF API client",
-  "keywords": [
-    "api",
-    "client",
-    "francais",
-    "french",
-    "railway",
-    "sncf",
-    "train"
-  ],
-  "homepage": "https://github.com/juliuste/sncf",
-  "bugs": "https://github.com/juliuste/sncf/issues",
-  "repository": "juliuste/sncf",
-  "license": "ISC",
-  "author": "Julius Tens <mail@juliustens.eu>",
-  "files": [
-    "lib/*"
-  ],
-  "main": "lib/index.js",
-  "scripts": {
-    "check-deps": "depcheck",
-    "fix": "eslint --fix lib",
-    "lint": "eslint lib",
-    "prepublishOnly": "npm test",
-    "test": "npm run lint && npm run check-deps && node test"
-  },
-  "dependencies": {
-    "got": "^9.0.0",
-    "lodash": "^4.17.10",
-    "moment-timezone": "^0.5.17",
-    "p-whilst": "^1.0.0",
-    "slugg": "^1.2.1"
-  },
-  "devDependencies": {
-    "depcheck": "^0.6.11",
-    "eslint": "^5.8.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "tape": "^4.9.1",
-    "validate-fptf": "^2.0.1"
-  },
-  "engines": {
-    "node": ">=8"
-  }
+	"name": "sncf",
+	"version": "0.6.0",
+	"description": "SNCF (French Railways) API client.",
+	"keywords": [
+		"api",
+		"client",
+		"francais",
+		"france",
+		"french",
+		"railway",
+		"sncf",
+		"train"
+	],
+	"homepage": "https://github.com/juliuste/sncf",
+	"bugs": "https://github.com/juliuste/sncf/issues",
+	"repository": "juliuste/sncf",
+	"license": "ISC",
+	"author": "Julius Tens <mail@juliustens.eu>",
+	"main": "lib/index.js",
+	"files": [
+		"lib/*",
+		"authenticate.js"
+	],
+	"scripts": {
+		"check-deps": "depcheck",
+		"fix": "eslint --fix lib authenticate.js test",
+		"postinstall": "node authenticate.js > credentials.json",
+		"lint": "eslint lib authenticate.js test",
+		"prepublishOnly": "npm test",
+		"test": "npm run lint && npm run check-deps && node test"
+	},
+	"dependencies": {
+		"ajv": "^6.10.2",
+		"create-hmac": "^1.1.7",
+		"got": "^9.6.0",
+		"hasha": "^5.1.0",
+		"lodash": "^4.17.15",
+		"uuid": "^3.3.3"
+	},
+	"devDependencies": {
+		"depcheck": "^0.9.2",
+		"eslint": "^6.8.0",
+		"eslint-config-standard": "^14.1.1",
+		"eslint-plugin-import": "^2.20.2",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.1",
+		"tape": "^4.13.2",
+		"tape-promise": "^4.0.0"
+	},
+	"engines": {
+		"node": ">=10"
+	}
 }
